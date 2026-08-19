@@ -6,7 +6,7 @@ metadata:
 spec:
   description: Platform + application delivery
   sourceRepos:
-    - "https://github.com/REPLACE_OWNER/gke-gitops-infra.git"
+    - "https://github.com/devopslabcloud-AI/gke-gitops-infra.git"
     - "https://kubernetes.github.io/ingress-nginx"
     - "https://charts.jetstack.io"
     - "https://bitnami-labs.github.io/sealed-secrets"

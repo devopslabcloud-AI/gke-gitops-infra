@@ -8,7 +8,7 @@ metadata:
 spec:
   project: platform
   source:
-    repoURL: https://github.com/REPLACE_OWNER/gke-gitops-infra.git
+    repoURL: https://github.com/devopslabcloud-AI/gke-gitops-infra.git
     targetRevision: main
     path: observability
     directory:

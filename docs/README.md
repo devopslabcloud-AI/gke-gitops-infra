@@ -22,7 +22,7 @@ gcloud container clusters get-credentials gitops-gke --region us-central1
 # 3. Install ArgoCD + bootstrap everything
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-# replace REPLACE_OWNER / PROJECT_ID placeholders, commit, then:
+# replace devopslabcloud-AI / PROJECT_ID placeholders, commit, then:
 kubectl apply -f argocd/projects/platform-project.yaml
 kubectl apply -f argocd/bootstrap/root-app.yaml
 
@@ -32,4 +32,4 @@ kubectl apply -f argocd/bootstrap/root-app.yaml
 # 7. terraform destroy when done
 ```
 
-Placeholders to replace before applying: `REPLACE_OWNER` (GitHub owner), `PROJECT_ID` (GCP project), `REPLACE_LB_IP` (set from the NGINX LB IP), and the tfstate bucket name in `terraform/envs/prod/versions.tf`.
+Placeholders to replace before applying: `devopslabcloud-AI` (GitHub owner), `PROJECT_ID` (GCP project), `REPLACE_LB_IP` (set from the NGINX LB IP), and the tfstate bucket name in `terraform/envs/prod/versions.tf`.

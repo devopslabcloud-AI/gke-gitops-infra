@@ -42,7 +42,7 @@ platform/cert-manager/cluster-issuer.yaml   # Let's Encrypt HTTP-01 issuer
 ```bash
 cd gke-gitops-infra
 export GH_OWNER="my-github-username"
-grep -rl 'REPLACE_OWNER' . | xargs sed -i "s#REPLACE_OWNER#${GH_OWNER}#g"   # macOS: sed -i ''
+grep -rl 'devopslabcloud-AI' . | xargs sed -i "s#devopslabcloud-AI#${GH_OWNER}#g"   # macOS: sed -i ''
 # also set your GCP project in the app manifests:
 export PROJECT_ID="my-gcp-project-id"
 grep -rl 'PROJECT_ID' apps/ | xargs sed -i "s#PROJECT_ID#${PROJECT_ID}#g"
@@ -114,7 +114,7 @@ curl -s "https://${HOST}/api/v1/items/7"          # valid Let's Encrypt cert
 
 ## Gotchas
 
-- **App stuck `OutOfSync`/`Unknown`** → repoURL still says `REPLACE_OWNER`, or the repo is private and ArgoCD has no credentials (add via `argocd repo add`).
+- **App stuck `OutOfSync`/`Unknown`** → repoURL still says `devopslabcloud-AI`, or the repo is private and ArgoCD has no credentials (add via `argocd repo add`).
 - **Certificate stays `False`** → the sslip.io host must resolve to the *NGINX LoadBalancer IP*; re-check step 5. Let's Encrypt HTTP-01 needs the `/.well-known/...` path reachable over port 80.
 - **ClusterIssuer errors "no kind ClusterIssuer"** → cert-manager CRDs weren't ready; the sync-wave handles ordering, just let ArgoCD retry.
 

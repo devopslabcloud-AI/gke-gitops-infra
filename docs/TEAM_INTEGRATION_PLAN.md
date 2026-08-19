@@ -13,7 +13,7 @@ Agree these values and write them in a pinned doc / Slack. Every repo hard-codes
 | `PROJECT_ID` | `my-gcp-proj` | Terraform, CI, manifests |
 | `REGION` | `us-central1` | everything |
 | `CLUSTER_NAME` | `gitops-gke` | Terraform, kubeconfig |
-| GitHub owner (`REPLACE_OWNER`) | `our-org` | CI, ArgoCD repoURLs |
+| GitHub owner (`devopslabcloud-AI`) | `our-org` | CI, ArgoCD repoURLs |
 | App repo name | `gke-microservice-app` | CI, WIF |
 | GitOps repo name | `gke-gitops-infra` | CI, ArgoCD |
 | Go module path | `github.com/our-org/gke-microservice-app` | app code |
@@ -63,7 +63,7 @@ The long pole is Terraform (10–15 min applies). Kick it off early; build the a
 
 **M3 — CI pushes first image (P3).** With M1 outputs set as GitHub repo Variables + `GITOPS_TOKEN` secret, a push to app `main` runs the pipeline and lands the first image in Artifact Registry **and** commits a tag bump into the GitOps repo. **Handoff:** the overlay `kustomization.yaml` now references a real image tag.
 
-**M4 — GitOps bootstrapped (P1 + P3).** Replace `REPLACE_OWNER`/`PROJECT_ID` placeholders in the GitOps repo and commit. Install ArgoCD, apply the AppProject + `root-app.yaml`. Platform apps sync. **Handoff:** P1 grabs the NGINX LoadBalancer IP; team sets the `sslip.io` host in the overlay and ClusterIssuer, commits, ArgoCD re-syncs.
+**M4 — GitOps bootstrapped (P1 + P3).** Replace `devopslabcloud-AI`/`PROJECT_ID` placeholders in the GitOps repo and commit. Install ArgoCD, apply the AppProject + `root-app.yaml`. Platform apps sync. **Handoff:** P1 grabs the NGINX LoadBalancer IP; team sets the `sslip.io` host in the overlay and ClusterIssuer, commits, ArgoCD re-syncs.
 
 **M5 — App live (integration checkpoint).** `argocd app list` shows microservice **Synced/Healthy**; `https://app.<LB_IP>.sslip.io/api/v1/items/1` returns 200 with a valid Let's Encrypt cert. This is the "it works end-to-end" moment.
 

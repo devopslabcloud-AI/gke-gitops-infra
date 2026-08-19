@@ -11,7 +11,7 @@ terraform {
   # Remote state in a GCS bucket so state is shared + locked.
   # Create the bucket once (see README), then run: terraform init
   backend "gcs" {
-    bucket = "REPLACE_ME-tfstate"
+    bucket = "gitops-gke-prod-tfstate"
     prefix = "gke/prod"
   }
 }

@@ -6,7 +6,7 @@ resources:
 # CI updates this block via `kustomize edit set image microservice=...:<tag>`
 images:
   - name: microservice
-    newName: us-central1-docker.pkg.dev/PROJECT_ID/apps/gke-microservice
+    newName: us-central1-docker.pkg.dev/gitops-gke-prod/apps/gke-microservice
     newTag: latest
 
 patches:
