@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice
+  namespace: microservice
+  labels:
+    app: microservice        # ServiceMonitor selects on this label
+spec:
+  type: ClusterIP
+  selector:
+    app: microservice
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

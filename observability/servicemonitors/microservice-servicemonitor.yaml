@@ -1,0 +1,16 @@
+# Tells the Prometheus Operator to scrape our microservice's /metrics endpoint.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: microservice
+  namespace: microservice
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: microservice        # matches the Service label
+  endpoints:
+    - port: http               # named port on the Service
+      path: /metrics
+      interval: 15s

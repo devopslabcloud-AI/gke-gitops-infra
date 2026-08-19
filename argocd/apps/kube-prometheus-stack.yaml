@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: platform
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 62.3.1
+    helm:
+      values: |
+        crds:
+          enabled: true
+        grafana:
+          adminPassword: "admin"   # DEMO ONLY - replace with a Sealed Secret
+          defaultDashboardsEnabled: true
+          sidecar:
+            dashboards:
+              enabled: true
+              searchNamespace: ALL     # auto-load dashboards from any namespace
+              label: grafana_dashboard
+        prometheus:
+          prometheusSpec:
+            # Pick up ServiceMonitors regardless of release label/namespace.
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
+            ruleSelectorNilUsesHelmValues: false
+            retention: 7d
+            resources:
+              requests: { cpu: 200m, memory: 512Mi }
+        alertmanager:
+          alertmanagerSpec:
+            resources:
+              requests: { cpu: 50m, memory: 128Mi }
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true      # large CRDs need SSA

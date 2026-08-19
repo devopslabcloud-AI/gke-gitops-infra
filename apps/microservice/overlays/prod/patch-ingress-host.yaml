@@ -1,0 +1,14 @@
+# Set the real host once the NGINX LoadBalancer IP is known.
+# Example: app.34-120-8-15.sslip.io  (dashes; sslip.io also accepts dots)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: microservice
+  namespace: microservice
+spec:
+  tls:
+    - hosts:
+        - app.REPLACE_LB_IP.sslip.io
+      secretName: microservice-tls
+  rules:
+    - host: app.REPLACE_LB_IP.sslip.io

@@ -1,0 +1,53 @@
+# Alerting rules for the microservice. Picked up by the Prometheus Operator
+# because ruleSelectorNilUsesHelmValues=false and the release label matches.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: microservice-golden-signals
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: microservice.rules
+      rules:
+        - alert: MicroserviceHighErrorRate
+          expr: |
+            sum(rate(http_requests_total{status=~"5.."}[5m]))
+            / clamp_min(sum(rate(http_requests_total[5m])), 1) > 0.05
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "High 5xx error rate (>5%)"
+            description: "The microservice is returning more than 5% 5xx responses for 2m."
+
+        - alert: MicroserviceHighLatencyP95
+          expr: |
+            histogram_quantile(0.95,
+              sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) > 0.5
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "p95 latency above 500ms"
+            description: "95th percentile latency has exceeded 500ms for 5m."
+
+        - alert: MicroservicePodCrashLooping
+          expr: |
+            increase(kube_pod_container_status_restarts_total{namespace="microservice"}[10m]) > 3
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Pod crash looping"
+            description: "A microservice pod has restarted more than 3 times in 10m."
+
+        - alert: MicroserviceTargetDown
+          expr: up{namespace="microservice"} == 0
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Prometheus target down"
+            description: "Prometheus cannot scrape the microservice for 2m."

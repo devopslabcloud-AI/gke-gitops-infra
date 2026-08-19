@@ -1,0 +1,10 @@
+# Copy to terraform.tfvars and fill in your values.
+project_id   = "my-gcp-project-id"
+github_owner = "my-github-username"
+
+# Optional overrides:
+# region        = "us-central1"
+# cluster_name  = "gitops-gke"
+# machine_type  = "e2-standard-2"
+# min_nodes     = 1
+# max_nodes     = 4

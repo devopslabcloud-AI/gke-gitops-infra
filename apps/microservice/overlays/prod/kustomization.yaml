@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+
+# CI updates this block via `kustomize edit set image microservice=...:<tag>`
+images:
+  - name: microservice
+    newName: us-central1-docker.pkg.dev/PROJECT_ID/apps/gke-microservice
+    newTag: latest
+
+patches:
+  - path: patch-ingress-host.yaml
+    target:
+      kind: Ingress
+      name: microservice
